@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', function () {return view('dashboard');})->name('dashboard');
     Route::get('bukutamu','BukutamuController@index')->name('showdata');
     Route::get('bukutamu/create','BukutamuController@create')->name('formcreate');
+    Route::get('export','BukutamuController@export')->name('exportdata');
     Route::post('bukutamu/store','BukutamuController@store')->name('datastore');
     Route::delete('bukutamu/delete/{id}','BukutamuController@destroy')->name('datadelete');
     Route::get('bukutamu/{id}/edit','BukutamuController@edit')->name('dataedit');

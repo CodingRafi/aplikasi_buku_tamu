@@ -18,8 +18,8 @@ class CreateDatatamusTable extends Migration
             $table->String('nama');
             $table->String('instansi');
             $table->Text('alamat');
-            $table->text('image');
-            $table->text('tandatangan');
+            $table->text('image')->nullable();
+            $table->text('tandatangan')->nullable();
             $table->timestamps();
         });
     }

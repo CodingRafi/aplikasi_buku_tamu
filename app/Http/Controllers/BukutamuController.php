@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Datatamu;
+use File;
 use Illuminate\Http\Request;
+use App\Exports\DataExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -41,37 +45,39 @@ class BukutamuController extends Controller
      */
     public function store(Request $request)
     {
-        // foto
+        
+        $validateData = ([
+            'nama' => $request->namatamu,
+            'instansi' => $request->instansi,
+            'alamat' => $request->alamat
+        ]);
 
-        $img =  $request->get('image');
-        // dd($img);
-        $folderPath = "storage/";
-        $image_parts = explode(";base64,", $img);
-        foreach ($image_parts as $key => $image){
-            $image_base64 = base64_decode($image);
+        if($request->image){
+            $img =  $request->get('image');
+            $folderPath = "storage/";
+            $image_parts = explode(";base64,", $img);
+            foreach ($image_parts as $key => $image){
+                $image_base64 = base64_decode($image);
+            }
+            $fileName = uniqid() . '.png';
+            $file = $folderPath . $fileName;
+            file_put_contents($file, $image_base64);
+            $validateData['image'] = $fileName;
         }
 
-        $fileName = uniqid() . '.png';
-        $file = $folderPath . $fileName;
-        file_put_contents($file, $image_base64);
-        $folderPath2 = "tandaTangan/";
-        $img_parts =  explode(";base64,", $request->signed);
-        $img_type_aux = explode("image/", $img_parts[0]);
-        $img_type = $img_type_aux[1];
-        $img_base64 = base64_decode($img_parts[1]);
-        $namaTandaTangan =   uniqid() . '.'.$img_type;
-        $file = $folderPath2 . $namaTandaTangan;
-        file_put_contents($file, $img_base64);
+        if($request->signed){
+            $folderPath2 = "tandaTangan/";
+            $img_parts =  explode(";base64,", $request->signed);
+            $img_type_aux = explode("image/", $img_parts[0]);
+            $img_type = $img_type_aux[1];
+            $img_base64 = base64_decode($img_parts[1]);
+            $namaTandaTangan =   uniqid() . '.'.$img_type;
+            $file = $folderPath2 . $namaTandaTangan;
+            file_put_contents($file, $img_base64);
+            $validateData['tandatangan'] = $namaTandaTangan;
+        }
 
-        DB::table('datatamus')->insert([
-            [
-                'nama' => $request->namatamu,
-                'instansi' => $request->instansi,
-                'alamat' => $request->alamat,
-                'image' => $fileName,
-                'tandatangan' => $namaTandaTangan
-            ]
-        ]);
+        DB::table('datatamus')->insert($validateData);
 
         return redirect("/bukutamu")->with('success', 'Data submitted Successfully');
         // dump($request->all());
@@ -172,14 +178,21 @@ class BukutamuController extends Controller
      */
     public function destroy($id)
     {
-        // dd($id);
-        // $gambar = Gambar::where('id',$id)->first();
-        $pengunjung = DB::table('datatamus')->where('id',$id);
-        Storage::delete($pengunjung->first()->image);
-        $pengunjung->delete();
+        // dd(DB::table('datatamus')->where('id',$id)->get()[0]);
+        // dd('storage/'. $pengunjung->image);
+        $pengunjung = DB::table('datatamus')->where('id',$id)->get()[0];
+        if($pengunjung->image){
+            File::delete('storage/'. $pengunjung->image);
+        }
+        if($pengunjung->tandatangan){
+            File::delete('tandaTangan/'. $pengunjung->tandatangan);
+        }
+        DB::table('datatamus')->where('id', $id)->delete();
 
         return redirect()->route('showdata')->with('notifdelete','Data Berhasil DiHapus!');
     }
 
-    
+    public function export(){
+        return Excel::download(new DataExport, 'datatamu.xlsx');
+    }
 }

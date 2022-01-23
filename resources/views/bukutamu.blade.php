@@ -8,6 +8,7 @@
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12">
                     <a href="{{route('formcreate')}}" class="btn btn-primary" he> <i class="fa fa-edit mr-1"></i>Tambah Data</a>
+                    <a href="{{route('exportdata')}}" class="btn btn-primary" he>Export Data</a>
                     @if (session('notif'))
                         <div class="alert alert-success mt-3 alert-dismissible fade show" role="alert">
                             {{session('notif')}}
@@ -18,6 +19,8 @@
                             {{session('notifdelete')}}
                         </div>
                     @endif
+
+                    @if (count($datatamu) > 0)   
                     <table class="table mt-3 table-striped" style="font-size: 15px;text-align:center;">
                         <thead class="thead-dark">
                             <tr>
@@ -63,10 +66,11 @@
                             @endforeach
                         </tbody>
                     </table>
-
-                    
-
-                    
+                    @else
+                    <div class="alert alert-success mt-3 alert-dismissible fade show" role="alert">
+                        Maaf, tidak ada ditemukan
+                    </div>
+                    @endif
 
                     {{$datatamu->links()}}
                     
