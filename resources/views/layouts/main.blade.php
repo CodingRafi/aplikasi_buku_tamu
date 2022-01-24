@@ -144,7 +144,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://keith-wood.name/js/jquery.signature.js"></script>
 
-    @if(Request::is("bukutamu/create") || Request::is("bukutamu/{id}/edit"))
+    @if(Request::is("bukutamu/create") || Request::route()->getName() == 'dataedit')
     <script>
             Webcam.set({
                 width: 490,

@@ -145,8 +145,9 @@ class BukutamuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
+        // dd($request);
         $datatamu = DB::table('datatamus')->where('id',$id)->first();
         return view('bread_bukutamu.edit',['datatamu'=>$datatamu]);
     }
@@ -161,12 +162,31 @@ class BukutamuController extends Controller
     public function update(Request $request, $id)
     {
         $this->_validation($request);
-        // return dd($request->all());
-        DB::table('datatamus')->where('id',$id)->update([
+        $data = DB::table('datatamus')->where('id',$id)->get()[0];
+
+        $validateData = ([
             'nama'=>$request->namatamu,
             'instansi'=>$request->instansi,
             'alamat'=>$request->alamat
         ]);
+
+        if($request->image){
+            if($data->image){
+                File::delete('storage/'. $data->image);
+            }
+            $img =  $request->get('image');
+            $folderPath = "storage/";
+            $image_parts = explode(";base64,", $img);
+            foreach ($image_parts as $key => $image){
+                $image_base64 = base64_decode($image);
+            }
+            $fileName = uniqid() . '.png';
+            $file = $folderPath . $fileName;
+            file_put_contents($file, $image_base64);
+            $validateData['image'] = $fileName;
+        }
+
+        DB::table('datatamus')->where('id',$id)->update($validateData);
         return redirect()->route('showdata')->with('notif','Data Berhasil Di Update!');
     }
 

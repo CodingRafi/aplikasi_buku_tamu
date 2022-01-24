@@ -44,18 +44,48 @@
                                     @enderror
                                 </div>
                                 
-                                <div class="form-group" id="gambarEdit2">
-                                    <label for="suhutubuh">Foto</label>
-                                    <div class="input-group mb-2">
-                                        <img src="/storage/{{ $datatamu->image }}" alt="" class="imgEdit">
-                                        
-                                        @error('suhutubuh')
-                                        <div class="alert alert-danger float-none" role="alert">
+                                <div class="form-group">
+                                    <label for="image">Foto</label>
+                                    <div class="bungkus" {{ ($datatamu->image) ? "style=display:none" : "style=display:block" }}>
+                                        <div class="col-md-6">
+                                            <div id="camera"></div>
+                                            <br/>
+                                            <input type=button class="btn btn-sm btn-primary" value="Take Snapshot" onClick="take_snapshot()">
+                                            <input type="hidden" name="image" class="image-tag">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div id="results" style="margin-top: 30px;">Your captured image will appear here...</div>
+                                        </div>
+                                    </div>
+                                    <div class="bungkus2" {{ ($datatamu->image) ? "style=display:block" : "style=display:none" }}>
+                                        <img src="{{ asset('storage/'.$datatamu->image) }}" style="width: 25vw;">
+                                    </div>
+                                    <button class="btn btn-warning mt-2 tombol-foto" type="button">Ubah Foto</button>
+                                    <button class="btn btn-secondary mt-2 tombol-foto-batal" type="button" style="display: none;">Batal</button>
+                                    
+                                    @error('image')
+                                        <div class="alert alert-danger" role="alert">
                                             Data Harus diisi!
                                         </div>
-                                        @enderror
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label for="tandaTangan">Tanda Tangan</label>
+                                    <div class="containertandatangan" {{ ($datatamu->tandatangan) ? "style=z-index:-9999" : "style=z-index:9999" }}>
+                                        <div class="col-md-12">
+                                            <br/>
+                                            <div id="sig" ></div>
+                                            <br/>
+                                            <button id="clear" class="btn btn-primary">Hapus Tanda Tangan</button>
+                                            <textarea id="signature64" name="signed" style="display: none"></textarea>
+                                        </div>
                                     </div>
-                                    <button type="button" class="ubahFoto btn btn-primary">Ubah Foto</button>
+                                    <div class="container2tandatangan" {{ ($datatamu->tandatangan) ? "style=display:block" : "style=display:none" }}>
+                                        <img src="{{ asset('tandaTangan/'.$datatamu->tandatangan) }}" style="width: 40vw;" class="shadow">
+                                    </div>
+                                    <button class="btn btn-warning mt-2 tombol-tanda-tangan" type="button">Ubah tanda tangan</button>
+                                    <button class="btn btn-secondary mt-2 tombol-tanda-tangan-batal" type="button" style="display: none">Batal Ubah Tanda Tangan</button>
+                                </div>
                                     <div class="container-fluid mt-3 p-0">
                                         <button class="btn btn-primary">Simpan</button>
                                     </div>
@@ -67,5 +97,43 @@
             </div>
     </div>
     
+    <script>
+        const tombolFoto = document.querySelector('.tombol-foto');
+        const tombolTandaTangan = document.querySelector('.tombol-tanda-tangan');
+        const tombolFotoBatal = document.querySelector('.tombol-foto-batal');
+        const bungkus = document.querySelector('.bungkus');
+        const bungkus2 = document.querySelector('.bungkus2');
+        const results = document.querySelector('#results');
+        const imageTag = document.querySelector('.image-tag');
+        const containertandatangan = document.querySelector('.containertandatangan');
+        const container2tandatangan = document.querySelector('.container2tandatangan');
+        const tombolTandaTanganBatal = document.querySelector('.tombol-tanda-tangan-batal');
+
+        tombolFoto.addEventListener('click', function(){
+            tombolFotoBatal.style.display = 'block';
+            tombolFoto.style.display = 'none';
+            bungkus.style.display = 'block';
+            bungkus2.style.display = 'none';
+        })
+
+        tombolFotoBatal.addEventListener('click', function(){
+            bungkus.style.display = 'none';
+            bungkus2.style.display = 'block';
+            tombolFoto.style.display = 'block';
+            tombolFotoBatal.style.display = 'none';
+            results.innerHTML = 'Your captured image will appear here...';
+            imageTag.value = "";
+        })
+
+        tombolTandaTangan.addEventListener('click', function(){
+            containertandatangan.style.display =  'block';
+            container2tandatangan.style.display = 'none';
+            tombolTandaTangan.style.display = 'none';
+            tombolTandaTanganBatal.style.display = 'block';
+            const canvas1 = document.querySelector('#sig canvas');
+            console.log(canvas1)
+        })
+    </script>
+
 @endsection
 
