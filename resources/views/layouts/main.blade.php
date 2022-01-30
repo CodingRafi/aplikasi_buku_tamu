@@ -23,12 +23,12 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/components.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/mystyle.css')}}">
 
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css">
   
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
-    <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet"> 
-    
+    <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet">
   
     <link rel="stylesheet" type="text/css" href="http://keith-wood.name/css/jquery.signature.css">
   
@@ -88,7 +88,7 @@
     @if (Request::is("bukutamu"))
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" style="width: 40vw;">
+            <div class="modal-dialog modal-lg">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel" style="font-size: 20px;">Detail Pengunjung</h5>
@@ -123,6 +123,7 @@
     @endif
 
     @stack('before-scripts')
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
     <!-- General JS Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -161,17 +162,49 @@
                 } );
             }
 
+            let signature;
 
-        var canvas = document.getElementById('signature-pad');
+            function setupSignature(){
+                const canvas = document.querySelector('canvas');
+                signature = new SignaturePad(canvas);
+            }
 
-        var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
-        $('#clear').click(function(e) {
-            e.preventDefault();
-            sig.signature('clear');
-            $("#signature64").val('');
-        });
+            $(document).ready(setupSignature)
+
+            $('#clear').click(function() {
+                signature.clear()
+                $('#signature64').val('');
+            });
+
+            $('#simpanEdit123').click(function(){
+                let ttd = signature.toDataURL();
+                let data = $('#signature64').val(ttd);
+            })
+
+
+        // var canvas = document.getElementById('signature-pad');
+
+        // var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
+        // $('#clear').click(function(e) {
+        //     e.preventDefault();
+        //     sig.signature('clear');
+        //     $("#signature64").val('');
+        // });
 
     </script>
+    @endif
+
+    @if (Request::route()->getName() == 'dataedit')
+        <script>
+            tombolTandaTanganBatal.addEventListener('click', function(){
+            containertandatangan.style.display =  'none';
+            container2tandatangan.style.display = 'block';
+            tombolTandaTangan.style.display = 'block';
+            tombolTandaTanganBatal.style.display = 'none';
+            signature.clear();
+            $('#signature64').val('');
+        })
+        </script>
     @endif
 
     @if (Request::is("bukutamu"))

@@ -65,14 +65,14 @@
                                     <div class="col-md-12">
                                         <label class="" for="">Tanda Tangan:</label>
                                         <br/>
-                                        <div id="sig" ></div>
+                                        <canvas id="sig" ></canvas>
                                         <br/>
                                         <button id="clear" class="btn btn-primary">Hapus Tanda Tangan</button>
                                         <textarea id="signature64" name="signed" style="display: none"></textarea>
                                     </div>
 
                                 </div>
-                                <button class="btn btn-primary" type="submit">Simpan</button>
+                                <button class="btn btn-primary" type="submit" id="simpanEdit123">Simpan</button>
                             </form>
 
                         </div>

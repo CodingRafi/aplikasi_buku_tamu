@@ -71,12 +71,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="tandaTangan">Tanda Tangan</label>
-                                    <div class="containertandatangan" {{ ($datatamu->tandatangan) ? "style=z-index:-9999" : "style=z-index:9999" }}>
+                                    <div class="containertandatangan" {{ ($datatamu->tandatangan) ? "style=display:none" : "style=display:block" }}>
                                         <div class="col-md-12">
                                             <br/>
-                                            <div id="sig" ></div>
-                                            <br/>
-                                            <button id="clear" class="btn btn-primary">Hapus Tanda Tangan</button>
+                                            <canvas id="sig" class="shadow"></canvas>
+                                            <br>
+                                            <button id="clear" class="btn btn-primary mt-2 mb-2" type="button">Hapus Tanda Tangan</button>
                                             <textarea id="signature64" name="signed" style="display: none"></textarea>
                                         </div>
                                     </div>
@@ -84,10 +84,11 @@
                                         <img src="{{ asset('tandaTangan/'.$datatamu->tandatangan) }}" style="width: 40vw;" class="shadow">
                                     </div>
                                     <button class="btn btn-warning mt-2 tombol-tanda-tangan" type="button">Ubah tanda tangan</button>
-                                    <button class="btn btn-secondary mt-2 tombol-tanda-tangan-batal" type="button" style="display: none">Batal Ubah Tanda Tangan</button>
+                                    <button class="btn btn-secondary mt-2 tombol-tanda-tangan-batal" type="button" style="display: none" >Batal Ubah Tanda Tangan</button>
                                 </div>
                                     <div class="container-fluid mt-3 p-0">
-                                        <button class="btn btn-primary">Simpan</button>
+                                        <button class="btn btn-primary" id="simpanEdit123">Simpan</button>
+                                        <a href="/bukutamu" class="btn btn-secondary">Back</a>
                                     </div>
                             </form>
 
@@ -97,6 +98,8 @@
             </div>
     </div>
     
+    
+
     <script>
         const tombolFoto = document.querySelector('.tombol-foto');
         const tombolTandaTangan = document.querySelector('.tombol-tanda-tangan');
@@ -130,9 +133,9 @@
             container2tandatangan.style.display = 'none';
             tombolTandaTangan.style.display = 'none';
             tombolTandaTanganBatal.style.display = 'block';
-            const canvas1 = document.querySelector('#sig canvas');
-            console.log(canvas1)
         })
+
+        
     </script>
 
 @endsection

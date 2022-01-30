@@ -1,0 +1,51 @@
+*{
+    margin: 0;
+    padding : 0;
+}
+#card{
+     width: 30vw; 
+     text-align: center
+ }
+
+.gambar-welcome{
+    height:12vw;
+}
+
+.kata-welcome2{
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#tombol-welcome{
+    font-size: 13px;
+    height: 37px;
+    margin-top: 22px;
+}
+
+
+@media(min-width:481px) and (max-width:850px){
+   #card{
+        width: 25rem;
+    }
+
+    .gambar-welcome{
+        height:10rem;
+    }
+
+    .kata-welcome{
+        font-size: 1.6rem;
+    }
+
+    .kata-welcome2{
+        font-size: 1rem;
+    }
+
+    #tombol-welcome{
+        font-size: 1.2rem;
+        height:auto;
+    }
+
+    #navbar-atas-admin{
+        width: 100%;
+    }
+}

@@ -21,7 +21,7 @@
                     @endif
 
                     @if (count($datatamu) > 0)   
-                    <table class="table mt-3 table-striped" style="font-size: 15px;text-align:center;">
+                    <table class="table mt-3 table-striped table-responsive" style="font-size: 15px;text-align:center;">
                         <thead class="thead-dark">
                             <tr>
                                 <th>#</th>
@@ -48,7 +48,7 @@
                                 <td>{{$dt->alamat}}</td>
                                 <td><img src="tandaTangan/{{ $dt->tandatangan }}" style="width: 90px;"></td>
                                 <td>
-                                    <div class="container d-flex" style="width: 5vw;margin: 0;padding: 0;">
+                                    <div class="container d-flex" style="margin: 0;padding: 0;">
                                         <button type="button" class="badge badge-primary border-0 butModal" data-toggle="modal" data-target="#exampleModal" data-id="{{ $no }}">
                                             See
                                         </button>

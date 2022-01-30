@@ -45,7 +45,7 @@ class BukutamuController extends Controller
      */
     public function store(Request $request)
     {
-        
+        // dd($request);
         $validateData = ([
             'nama' => $request->namatamu,
             'instansi' => $request->instansi,
@@ -184,6 +184,21 @@ class BukutamuController extends Controller
             $file = $folderPath . $fileName;
             file_put_contents($file, $image_base64);
             $validateData['image'] = $fileName;
+        }
+
+        if($request->signed){
+            if($data->tandatangan){
+                File::delete('tandaTangan/'. $data->tandatangan);
+            }
+            $folderPath2 = "tandaTangan/";
+            $img_parts =  explode(";base64,", $request->signed);
+            $img_type_aux = explode("image/", $img_parts[0]);
+            $img_type = $img_type_aux[1];
+            $img_base64 = base64_decode($img_parts[1]);
+            $namaTandaTangan =   uniqid() . '.'.$img_type;
+            $file = $folderPath2 . $namaTandaTangan;
+            file_put_contents($file, $img_base64);
+            $validateData['tandatangan'] = $namaTandaTangan;
         }
 
         DB::table('datatamus')->where('id',$id)->update($validateData);
