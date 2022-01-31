@@ -148,8 +148,8 @@
     @if(Request::is("bukutamu/create") || Request::route()->getName() == 'dataedit')
     <script>
             Webcam.set({
-                width: 490,
-                height: 390,
+                width: 350,
+                height: 250,
                 image_format: 'jpeg',
                 jpeg_quality: 90
             });
@@ -158,7 +158,7 @@
             function take_snapshot() {
                 Webcam.snap( function(data_uri) {
                     $(".image-tag").val(data_uri);
-                    document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+                    document.getElementById('results').innerHTML = '<img src="'+data_uri+'" class="img-fluid"/>';
                 } );
             }
 
@@ -181,6 +181,13 @@
                 let data = $('#signature64').val(ttd);
             })
 
+            let width = window.screen.width;
+            if(width < 480){
+                const video = document.querySelector('#camera video');
+                const sig = document.querySelector('#sig');
+                video.style.width = "16rem";
+                sig.style.width = "15rem";
+            }
 
         // var canvas = document.getElementById('signature-pad');
 

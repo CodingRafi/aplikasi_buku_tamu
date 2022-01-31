@@ -17,6 +17,8 @@
   
     <link rel="stylesheet" type="text/css" href="http://keith-wood.name/css/jquery.signature.css">
 
+    <link rel="stylesheet" href="{{asset('assets/css/mystyle.css')}}">
+
     <style>
 
     .kbw-signature { width: 100%; height: 200px;}
@@ -50,7 +52,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="namatamu">Nama Tamu</label>
-                            <input type="text" class="form-control @error('namatamu') is-invalid @enderror" id="namatamu" name="namatamu"  value="{{old('namatamu')}}">
+                            <input type="text" class="form-control @error('namatamu') is-invalid @enderror" id="namatamu" name="namatamu"  value="{{old('namatamu')}}" required>
                             <small id="namatamu" class="form-text text-muted">Nama tamu yang berkunjung</small>
     
                             @error('namatamu')
@@ -61,7 +63,7 @@
                         </div>
                         <div class="form-group">
                             <label for="instansi">Instansi</label>
-                            <input type="text" class="form-control @error('instansi') is-invalid @enderror" id="instansi" name="instansi">
+                            <input type="text" class="form-control @error('instansi') is-invalid @enderror" id="instansi" name="instansi" required>
                             <small id="instansi" class="form-text text-muted">Instansi Tamu yang berkunjung</small>
                             @error('instansi')
                                 <div class="alert alert-danger" role="alert">
@@ -71,7 +73,7 @@
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
-                            <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" rows="5" name="alamat" value="{{old('alamat')}}"></textarea>
+                            <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" rows="5" name="alamat" value="{{old('alamat')}}" required></textarea>
                             <small id="namatamu" class="form-text text-muted">Alamat tamu yang berkunjung</small>
                             @error('alamat')
                                 <div class="alert alert-danger" role="alert">
@@ -161,6 +163,14 @@
 
             })
 
+            let width = window.screen.width;
+            if(width < 480){
+                const video = document.querySelector('#camera video');
+                const sig = document.querySelector('#sig');
+                video.style.width = "17rem";
+                sig.style.width = "15rem";
+            }
+            
         // var canvas = document.getElementById('signature-pad');
         // var sig = $('#sig').signature({syncField: '#signature64', syncFormat: 'PNG'});
         // $('#clear').click(function(e) {

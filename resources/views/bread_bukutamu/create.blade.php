@@ -14,7 +14,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="namatamu">Nama Tamu</label>
-                                    <input type="text" class="form-control @error('namatamu') is-invalid @enderror" id="namatamu" name="namatamu"  value="{{old('namatamu')}}">
+                                    <input type="text" class="form-control @error('namatamu') is-invalid @enderror" id="namatamu" name="namatamu"  value="{{old('namatamu')}}" required>
                                     <small id="namatamu" class="form-text text-muted">Nama tamu yang berkunjung</small>
 
                                     @error('namatamu')
@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="instansi">Instansi</label>
-                                    <input type="text" class="form-control @error('instansi') is-invalid @enderror" id="instansi" name="instansi">
+                                    <input type="text" class="form-control @error('instansi') is-invalid @enderror" id="instansi" name="instansi" required>
                                     <small id="instansi" class="form-text text-muted">Instansi Tamu yang berkunjung</small>
                                     @error('instansi')
                                         <div class="alert alert-danger" role="alert">
@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="alamat">Alamat</label>
-                                    <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" rows="5" name="alamat" value="{{old('alamat')}}"></textarea>
+                                    <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" rows="5" name="alamat" value="{{old('alamat')}}" required></textarea>
                                     @error('alamat')
                                         <div class="alert alert-danger" role="alert">
                                             Data Harus diisi!
@@ -65,14 +65,15 @@
                                     <div class="col-md-12">
                                         <label class="" for="">Tanda Tangan:</label>
                                         <br/>
-                                        <canvas id="sig" ></canvas>
+                                        <canvas id="sig" class="shadow"></canvas>
                                         <br/>
-                                        <button id="clear" class="btn btn-primary">Hapus Tanda Tangan</button>
+                                        <button id="clear" class="btn btn-primary mt-3" type="button">Hapus Tanda Tangan</button>
                                         <textarea id="signature64" name="signed" style="display: none"></textarea>
                                     </div>
 
                                 </div>
                                 <button class="btn btn-primary" type="submit" id="simpanEdit123">Simpan</button>
+                                <a class="btn btn-secondary" href="/bukutamu">Back</a>
                             </form>
 
                         </div>
@@ -80,7 +81,6 @@
                 </div>
             </div>
     </div>
-    
     
 
 @endsection
